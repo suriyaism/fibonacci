@@ -1,0 +1,40 @@
+service: suriya-aws-serverless
+
+custom:
+  project: 'SURIYA'
+  stage: ${self:provider.stage}
+  settings:
+    dev:
+      STAGE: ${self:custom.stage}
+      ENV: 'develop'
+    prd:
+      STAGE: ${self:custom.stage}
+      ENV: 'production'
+
+package:
+  individually: true
+  exclude:
+    - ./**
+
+provider:
+  name: aws
+  runtime: python3.7
+  region: eu-central-1
+  timeout: 5
+  environment: ${self:custom.settings.${self:custom.stage}}
+
+functions:
+  fibonacci:
+    handler: application/fibonacci/lambda_function.lambda_handler
+    name: ${self:custom.project}-${self:custom.stage}-fibonacci
+    package:
+      include:
+        - application/fibonacci/**
+        - application/utilities/**
+    tracing: true
+    events:
+      - http:
+          method: get
+          path: apigateway/dev/fibonacci
+          cors: true
+
