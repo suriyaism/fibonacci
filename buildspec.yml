@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       python: 3.7
-      nodejs : 12.18.2
+      nodejs : 12
     pre_build:
     commands:
       - pip install virtualenv
