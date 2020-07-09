@@ -11,11 +11,10 @@ phases:
       - virtualenv venv
       - pip install -r requirements.txt
       - npm install
-      - npm install serverless
+      - npm install serverless -g
   build:
     commands:
       - serverless deploy
 artifacts:
   files:
     - '**/*'
-  base-directory: .serverless
